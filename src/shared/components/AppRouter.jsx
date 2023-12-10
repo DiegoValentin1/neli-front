@@ -5,10 +5,13 @@ import { PublicNavbar } from "./PublicNavbar";
 import AppLayout from "./AppLayout";
 import Users from "../../modules/super/Users";
 import UserHome from "../../modules/user/UserHome";
+import PlatformScreen from "../../modules/platform/PlatformScreen";
+import { AuthContext } from "../../modules/auth/authContext";
+import { useContext } from "react";
 
 export const AppRouter = () => {
-  // const { user } = useContext(AuthContext);
-  const user = { data: { role: "USER" }, isLogged: true };
+  const { user } = useContext(AuthContext);
+  //const user = { data: { role: "2" }, isLogged: true };
   console.log(user.data.role);
   return (
     <Router>
@@ -18,26 +21,28 @@ export const AppRouter = () => {
           path="/*"
           element={
             user.isLogged ? (
-              user.data.role === 'ADMIN' ? (
+              user.data.role === 1 ? (
                 <>
                   <Routes>
                     <Route path="/" element={<AppLayout option={1} />}>
-                      <Route index element={<Users option={true} />} />
+                      <Route element={<Users option={true} />} />
+                      <Route path="/platform" element={<PlatformScreen/>}/>
+                      <Route index element={<PlatformScreen />} />
                     </Route>
                   </Routes>
                 </>
               ) : (
-                user.data.role === 'SUPER' ? (
+                user.data.role === 2 ? (
                   <>
                     <Routes>
                       <Route path="/" element={<AppLayout option={2} />}>
-                        <Route index element={<Users option={false}/>} />
-                    <Route path="*" element={<>SUPER</>} />
+                        <Route  element={<Users option={false} />} />
+                        <Route path="*" element={<>SUPER</>} />
                       </Route>
                     </Routes>
                   </>
                 ) : (
-                  user.data.role === 'USER' && (
+                  user.data.role === 3 && (
                     <>
                       <Routes>
                         <Route path="/" element={<AppLayout option={3} />}>

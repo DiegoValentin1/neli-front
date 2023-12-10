@@ -38,13 +38,13 @@ export const LoginScreen = () => {
   const { user, dispatch } = useContext(AuthContext);
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
     validationSchema: yup.object().shape({
-      email: yup.string().required("Campo obligatorio"),
+      username: yup.string().required("Campo obligatorio"),
       password: yup.string().required("Campo obligatorio"),
-      password2: yup.string().required("Campo obligatorio").oneOf([yup.ref('password'), null], 'Las contraseñas deben coincidir'),
+      //password2: yup.string().required("Campo obligatorio").oneOf([yup.ref('password'), null], 'Las contraseñas deben coincidir'),
     }),
     onSubmit: async (values) => {
       setExpanded(!expanded);
@@ -52,11 +52,10 @@ export const LoginScreen = () => {
       console.log(values);
       try {
         const response = await AxiosClient({
-          url: "/auth",
+          url: "/auth/",
           method: "POST",
           data: JSON.stringify(values),
         });
-        console.log(response);
         if (!response.error) {
           const action = {
             type: "LOGIN",
@@ -88,20 +87,20 @@ export const LoginScreen = () => {
               <div className="formBien">Bienvenido</div>
               <Form className="loginSelect" onSubmit={formik.handleSubmit}>
                 <Form.Group className="form-outline mb-1">
-                  <Form.Label htmlFor="email">
+                  <Form.Label htmlFor="username">
                     Usuario
                   </Form.Label>
                   <Form.Control
-                    placeholder="correo@dominio.com"
-                    id="email"
+                    placeholder="usuario"
+                    id="username"
                     autoComplete="off"
-                    name="email"
-                    value={formik.values.email}
+                    name="username"
+                    value={formik.values.username}
                     onChange={formik.handleChange}
                   />
-                  {formik.errors.email ? (
+                  {formik.errors.username ? (
                     <span className="error-text">
-                      {formik.errors.email}
+                      {formik.errors.username}
                     </span>
                   ) : null}
                 </Form.Group>
@@ -127,7 +126,7 @@ export const LoginScreen = () => {
                 <Form.Group className='form-outline mb-1'>
                   <div className="text-center pt-1 pb-1 formBoton">
                     <Button
-                      // onClick={()=>setExpanded(!expanded)}
+                      onClick={()=>setExpanded(!expanded)}
                       className='btn-hover gradient-custom-2 formBoton'
                       type="submit"
                       disable={!(formik.isValid && formik.dirty)}
@@ -215,7 +214,7 @@ export const LoginScreen = () => {
                 <Form.Group className='form-outline mb-1'>
                   <div className="text-center pt-1 pb-1 formBoton">
                     <Button
-                      // onClick={()=>setExpanded(!expanded)}
+                      onClick={()=>setExpanded(!expanded)}
                       className='btn-hover gradient-custom-2 formBoton'
                       type="submit"
                       disable={!(formik.isValid && formik.dirty)}

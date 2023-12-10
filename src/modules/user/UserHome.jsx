@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import '../../utils/styles/UserStyles.css';
 import AxiosClient from "../../shared/plugins/axios";
 import Alert from "../../shared/plugins/alerts";
+import { AuthContext } from '../auth/authContext';
 
 const UserHome = () => {
-
-    
+    const user = useContext(AuthContext);
 
     useEffect(() => {
         cargarDatos();
+        console.log(user);
     }, []);
 
     const cargarDatos = async () => {
